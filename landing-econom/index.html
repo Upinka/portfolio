@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ПРОТОН — ремонт техники за 40 минут</title>
+<meta name="description" content="Ремонт телефонов, ноутбуков и бытовой техники. Диагностика бесплатно, ремонт от 40 минут, гарантия 6 месяцев.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2f5fb; --white:#fff; --ink:#0a1020; --muted:#5a6478;
+    --blue:#1b4dff; --blue-ink:#eaf0ff; --line:#dbe3f2;
+    --font:"Inter",system-ui,sans-serif; --display:"Space Grotesk","Inter",sans-serif;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{width:min(100% - 36px,1120px);margin-inline:auto}
+  a{color:inherit}
+  ::selection{background:var(--blue);color:#fff}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:6px}
+
+  .top{position:sticky;top:0;z-index:30;background:rgba(242,245,251,.86);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .3s}
+  .top.is-stuck{border-color:var(--line)}
+  .top__in{display:flex;align-items:center;gap:24px;height:68px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-weight:700;font-size:18px;letter-spacing:-.02em}
+  .brand i{width:28px;height:28px;border-radius:9px;background:var(--blue);display:grid;place-items:center;color:#fff;font-style:normal;font-size:14px}
+  .nav{display:flex;gap:22px;margin-left:auto;font-size:14.5px;font-weight:500;color:var(--muted)}
+  .nav a{text-decoration:none}
+  .nav a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border-radius:12px;background:var(--blue);color:#fff;text-decoration:none;font-weight:600;font-size:14.5px;border:1px solid var(--blue);cursor:pointer;transition:transform .2s var(--ease),background .2s}
+  .btn:hover{transform:translateY(-2px);background:#0f3ae0}
+  .btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn--ghost:hover{background:var(--white);border-color:var(--ink)}
+
+  .hero{padding:56px 0 48px}
+  .hero__grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:start}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--blue-ink);color:var(--blue);font-weight:600;font-size:13px;padding:7px 12px;border-radius:9px;margin-bottom:20px}
+  h1{font-family:var(--display);font-size:clamp(32px,4.2vw,54px);line-height:1.05;letter-spacing:-.03em;margin:0 0 18px}
+  .hero p{color:var(--muted);font-size:17.5px;max-width:46ch;margin:0 0 26px}
+  .hero__row{display:flex;gap:12px;flex-wrap:wrap}
+  .hero__trust{display:flex;gap:26px;margin-top:28px;flex-wrap:wrap}
+  .hero__trust div{font-size:13px;color:var(--muted)}
+  .hero__trust b{display:block;font-family:var(--display);font-size:20px;color:var(--ink)}
+
+  .form-card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:0 24px 60px -44px rgba(10,16,32,.5)}
+  .form-card h2{font-family:var(--display);font-size:18px;margin:0 0 4px;letter-spacing:-.01em}
+  .form-card p{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+  .field{margin-bottom:10px}
+  .field label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+  .field input,.field select{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font:inherit;font-size:14.5px;color:var(--ink)}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--blue);background:#fff}
+  .form-card .btn{width:100%;justify-content:center;margin-top:6px}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:9px}
+  .ok{display:none;font-size:14px;font-weight:600;color:var(--blue);margin-top:10px}
+  .ok.on{display:block}
+  .err{display:none;color:#c2261a;font-size:12.5px;margin-top:8px}
+  .err.on{display:block}
+
+  section{padding:52px 0}
+  .head{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:24px;flex-wrap:wrap}
+  h2{font-family:var(--display);font-size:clamp(24px,2.8vw,34px);line-height:1.12;letter-spacing:-.025em;margin:0}
+  .head p{margin:0;color:var(--muted);font-size:15px;max-width:38ch}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .svc{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px;transition:transform .25s var(--ease),box-shadow .25s}
+  .svc:hover{transform:translateY(-3px);box-shadow:0 18px 40px -32px rgba(10,16,32,.45)}
+  .svc b{display:block;font-family:var(--display);font-size:16px;margin-bottom:6px}
+  .svc p{margin:0;font-size:14px;color:var(--muted)}
+  .svc .price{margin-top:12px;font-weight:600;font-size:14px;color:var(--blue)}
+
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;counter-reset:s}
+  .st{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:20px;position:relative}
+  .st::before{counter-increment:s;content:counter(s);font-family:var(--display);font-size:13px;font-weight:700;color:#fff;background:var(--blue);width:24px;height:24px;border-radius:8px;display:grid;place-items:center;margin-bottom:12px}
+  .st b{display:block;font-size:15.5px;margin-bottom:5px}
+  .st p{margin:0;font-size:14px;color:var(--muted)}
+
+  .cta{background:var(--ink);color:#eef2fb;border-radius:20px;padding:clamp(26px,4vw,44px);display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+  .cta h2{color:#fff}
+  .cta p{color:#9aa6bd;margin:10px 0 0;font-size:15px}
+  .cta form{display:grid;gap:9px}
+  .cta input{width:100%;padding:13px 14px;border-radius:10px;border:1px solid #2a3450;background:#151d33;color:#fff;font:inherit;font-size:14.5px}
+  .cta input::placeholder{color:#6d7a95}
+  .cta input:focus{outline:none;border-color:var(--blue)}
+  .cta .btn{justify-content:center}
+  .cta .ok{color:#9fd0ff}
+
+  footer{padding:36px 0;border-top:1px solid var(--line);margin-top:24px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+  .rev{opacity:0;transform:translateY(14px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+  .rev.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rev{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  @media (max-width:860px){
+    .hero__grid,.cta{grid-template-columns:1fr}
+    .grid3,.steps{grid-template-columns:1fr}
+    .nav{display:none}
+    .top .btn{padding:11px 15px;font-size:13.5px}
+    h1{font-size:34px}
+  }
+</style>
+</head>
+<body>
+<header class="top" id="top">
+  <div class="wrap top__in">
+    <a class="brand" href="#top"><i>П</i> ПРОТОН</a>
+    <nav class="nav"><a href="#svc">Услуги</a><a href="#how">Как работаем</a><a href="#call">Заявка</a></nav>
+    <a class="btn" href="#call">Вызвать мастера</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <span class="badge">● Работаем сегодня · 9:00–21:00</span>
+        <h1>Ремонт техники за 40 минут, пока вы ждёте</h1>
+        <p>Телефоны, ноутбуки, кофемашины и пылесосы. Диагностика бесплатно, запчасти в наличии, гарантия 6 месяцев.</p>
+        <div class="hero__row">
+          <a class="btn" href="#call">Оставить заявку</a>
+          <a class="btn btn--ghost" href="#svc">Сколько стоит</a>
+        </div>
+        <div class="hero__trust">
+          <div><b>18 мин</b>средняя диагностика</div>
+          <div><b>4,9</b>рейтинг на картах</div>
+          <div><b>6 мес</b>гарантия на работу</div>
+        </div>
+      </div>
+      <aside class="form-card">
+        <h2>Узнать цену ремонта</h2>
+        <p>Скажем вилку по вашей модели за 5 минут.</p>
+        <form id="f1" novalidate>
+          <div class="field"><label for="n1">Имя</label><input id="n1" name="name" type="text" placeholder="Как вас зовут" autocomplete="name"></div>
+          <div class="field"><label for="p1">Телефон</label><input id="p1" name="phone" type="tel" placeholder="+7 999 000-00-00" autocomplete="tel"></div>
+          <div class="field"><label for="d1">Что сломалось</label>
+            <select id="d1" name="device"><option>Телефон</option><option>Ноутбук</option><option>Бытовая техника</option><option>Другое</option></select>
+          </div>
+          <button class="btn" type="submit">Отправить</button>
+          <div class="err" id="e1">Проверьте имя и телефон — нужно 10 цифр.</div>
+          <div class="ok" id="o1">Готово! Перезвоним в течение 5 минут.</div>
+          <p class="hint">Без предоплаты. Диагностика бесплатно при согласии на ремонт.</p>
+        </form>
+      </aside>
+    </div>
+  </section>
+
+  <section id="svc">
+    <div class="wrap">
+      <div class="head rev"><h2>Чиним то, что жалко выбросить</h2><p>Три направления — три мастера. Не берём то, в чём не уверены.</p></div>
+      <div class="grid3">
+        <article class="svc rev"><b>Телефоны и планшеты</b><p>Экраны, аккумуляторы, разъёмы, камеры. Оригинал и аналоги на выбор.</p><div class="price">от 1 500 ₽</div></article>
+        <article class="svc rev"><b>Ноутбуки и ПК</b><p>Чистка, термопаста, SSD, восстановление данных, замена клавиатур.</p><div class="price">от 2 000 ₽</div></article>
+        <article class="svc rev"><b>Бытовая техника</b><p>Кофемашины, пылесосы, микроволновки. Выезд мастера в день заявки.</p><div class="price">от 2 500 ₽</div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="how" style="padding-top:0">
+    <div class="wrap">
+      <div class="head rev"><h2>Как это работает</h2><p>Три шага, без «оставьте на две недели».</p></div>
+      <div class="steps">
+        <div class="st rev"><b>Заявка</b><p>Оставляете номер и модель — отвечаем с вилкой цены в течение 5 минут.</p></div>
+        <div class="st rev"><b>Диагностика</b><p>Бесплатно проверяем и показываем причину. Без согласия не ремонтируем.</p></div>
+        <div class="st rev"><b>Ремонт и гарантия</b><p>40–90 минут работы, проверка при вас, гарантия 6 месяцев в чеке.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="call" style="padding-top:0">
+    <div class="wrap">
+      <div class="cta rev">
+        <div>
+          <h2>Мастер приедет сегодня</h2>
+          <p>Оставьте номер — перезвоним за 5 минут, назовём цену и время. Без навязывания.</p>
+        </div>
+        <form id="f2" novalidate>
+          <input name="name" type="text" placeholder="Имя" aria-label="Имя">
+          <input name="phone" type="tel" placeholder="+7 999 000-00-00" aria-label="Телефон">
+          <button class="btn" type="submit">Жду звонка</button>
+          <div class="err" id="e2" style="color:#ff9b8f">Заполните имя и телефон.</div>
+          <div class="ok" id="o2" style="color:#9fd0ff">Заявка принята. Перезвоним за 5 минут.</div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>© 2026 ПРОТОН · ремонт техники</span>
+  <span>Москва, ул. Примерная, 10 · ежедневно 9:00–21:00</span>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var rm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var top = document.getElementById("top");
+  addEventListener("scroll", function(){ top.classList.toggle("is-stuck", scrollY > 6); }, {passive:true});
+
+  var items = [].slice.call(document.querySelectorAll(".rev"));
+  if (!rm && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+    }, {threshold:.15});
+    items.forEach(function(el){ io.observe(el); });
+  } else { items.forEach(function(el){ el.classList.add("in"); }); }
+
+  function digits(v){ return (v||"").replace(/\D/g,""); }
+  function bind(formId, errId, okId){
+    var f = document.getElementById(formId); if(!f) return;
+    var err = document.getElementById(errId), ok = document.getElementById(okId);
+    f.addEventListener("submit", function(e){
+      e.preventDefault();
+      var name = f.querySelector('[name="name"]').value.trim();
+      var phone = digits(f.querySelector('[name="phone"]').value);
+      var bad = name.length < 2 || phone.length < 10;
+      err.classList.toggle("on", bad);
+      if (bad) return;
+      [].forEach.call(f.querySelectorAll("input,select,button"), function(el){ el.disabled = true; });
+      ok.classList.add("on");
+    });
+  }
+  bind("f1","e1","o1"); bind("f2","e2","o2");
+})();
+</script>
+</body>
+</html>
+
