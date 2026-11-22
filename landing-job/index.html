@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Штат — подбор персонала для малого бизнеса за 7 дней</title>
+  <meta name="description" content="Рекрутинг для малого бизнеса: продавцы, администраторы, мастера, водители. Найдём сотрудника за 7 дней или не возьмём оплату. Гарантия замены 30 дней.">
+  <meta name="theme-color" content="#f4f2ed">
+  <meta property="og:title" content="Штат — подбор персонала за 7 дней">
+  <meta property="og:description" content="Точечный и массовый подбор для малого бизнеса. 3 финалиста с оценкой, гарантия 30 дней.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --paper:#f4f2ed;
+      --paper-2:#ece9e1;
+      --ink:#12140f;
+      --muted:#5f635a;
+      --line:#d8d4c8;
+      --accent:#e8441f;
+      --accent-ink:#fff7f2;
+      --dark:#15171b;
+      --radius:18px;
+      --wrap:1200px;
+      --font-body:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+      --font-display:"Unbounded","Manrope",system-ui,sans-serif;
+      --ease:cubic-bezier(.22,.61,.36,1);
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:var(--font-body);
+      font-size:17px;
+      line-height:1.55;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    img{max-width:100%;display:block}
+    a{color:inherit}
+    button{font:inherit}
+    ::selection{background:var(--accent);color:var(--accent-ink)}
+    .wrap{width:min(100% - 40px,var(--wrap));margin-inline:auto}
+    .skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 18px;z-index:100}
+    .skip:focus{left:12px;top:12px}
+    :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+    /* ---------- header ---------- */
+    .header{
+      position:sticky;top:0;z-index:50;
+      background:color-mix(in srgb,var(--paper) 88%,transparent);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid transparent;
+      transition:border-color .3s var(--ease), background .3s var(--ease);
+    }
+    .header.is-stuck{border-bottom-color:var(--line);background:color-mix(in srgb,var(--paper) 96%,transparent)}
+    .header__in{display:flex;align-items:center;gap:28px;height:76px}
+    .logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-display);font-weight:600;letter-spacing:-.02em;font-size:20px}
+    .logo__mark{width:30px;height:30px;border-radius:8px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:15px;font-weight:700}
+    .nav{display:flex;gap:26px;margin-left:auto}
+    .nav a{text-decoration:none;color:var(--muted);font-size:15px;font-weight:500;transition:color .2s}
+    .nav a:hover{color:var(--ink)}
+    .header .btn{margin-left:8px}
+    .burger{display:none;margin-left:auto;width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:transparent;cursor:pointer;position:relative}
+    .burger span{position:absolute;left:12px;right:12px;height:1.5px;background:var(--ink);transition:transform .3s var(--ease),opacity .2s}
+    .burger span:nth-child(1){top:16px}
+    .burger span:nth-child(2){top:22px}
+    .burger span:nth-child(3){top:28px}
+    .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+    .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+    .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+    /* ---------- buttons ---------- */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding:15px 24px;border-radius:999px;border:1px solid var(--ink);
+      background:var(--ink);color:var(--paper);text-decoration:none;
+      font-weight:600;font-size:15px;line-height:1;cursor:pointer;
+      transition:transform .2s var(--ease),background .2s,color .2s,border-color .2s;
+    }
+    .btn:hover{transform:translateY(-2px);background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+    .btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+    .btn--ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+    .btn--accent{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+    .btn--accent:hover{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+    .btn--sm{padding:11px 18px;font-size:14px}
+    .arrow{transition:transform .25s var(--ease)}
+    .btn:hover .arrow{transform:translateX(3px)}
+
+    /* ---------- hero ---------- */
+    .hero{padding:clamp(48px,7vw,96px) 0 clamp(40px,5vw,64px)}
+    .hero__grid{display:grid;grid-template-columns:1.35fr .65fr;gap:clamp(28px,5vw,70px);align-items:end}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:9px;
+      font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+      margin-bottom:26px;
+    }
+    .eyebrow::before{content:"";width:26px;height:1px;background:var(--accent)}
+    h1{
+      font-family:var(--font-display);
+      font-weight:600;
+      font-size:clamp(34px,4.9vw,64px);
+      line-height:1.02;
+      letter-spacing:-.035em;
+      margin:0 0 26px;
+      text-wrap:balance;
+    }
+    h1 em{font-style:normal;color:var(--accent)}
+    .nb{white-space:nowrap}
+    .lead{font-size:clamp(17px,1.35vw,20px);color:var(--muted);max-width:52ch;margin:0 0 34px}
+    .hero__cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+    .hero__note{font-size:13.5px;color:var(--muted);margin-top:18px}
+
+    .card-form{
+      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      padding:26px;box-shadow:0 24px 60px -42px rgba(18,20,15,.55);
+    }
+    .card-form h2{font-family:var(--font-display);font-size:19px;margin:0 0 6px;letter-spacing:-.02em}
+    .card-form p{font-size:14px;color:var(--muted);margin:0 0 18px}
+    .field{margin-bottom:12px}
+    .field label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px}
+    .field input,.field textarea,.field select{
+      width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;
+      background:var(--paper);color:var(--ink);font:inherit;font-size:15px;
+      transition:border-color .2s,background .2s;
+    }
+    .field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--ink);background:#fff}
+    .field input[aria-invalid="true"]{border-color:var(--accent)}
+    .card-form .btn{width:100%;margin-top:6px}
+    .fine{font-size:12px;color:var(--muted);margin-top:12px;line-height:1.45}
+    .fine a{color:var(--muted)}
+    .form-ok{display:none;padding:18px 0 4px}
+    .form-ok strong{display:block;font-family:var(--font-display);font-size:18px;margin-bottom:6px}
+    .form-ok.is-visible{display:block}
+    .form-error{color:var(--accent);font-size:13px;margin-top:8px;display:none}
+    .form-error.is-visible{display:block}
+
+    /* ---------- metrics ---------- */
+    .metrics{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .metrics__grid{display:grid;grid-template-columns:repeat(4,1fr)}
+    .metric{padding:30px 26px 28px;border-left:1px solid var(--line)}
+    .metric:first-child{border-left:0;padding-left:0}
+    .metric b{display:block;font-family:var(--font-display);font-weight:600;font-size:clamp(28px,3vw,42px);letter-spacing:-.03em;line-height:1;white-space:nowrap}
+    .metric span{display:block;font-size:13.5px;color:var(--muted);margin-top:8px}
+
+    /* ---------- sections ---------- */
+    section{padding:clamp(62px,7vw,104px) 0}
+    .sec-head{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:end;margin-bottom:clamp(32px,4vw,54px)}
+    .sec-head h2{
+      font-family:var(--font-display);font-weight:600;
+      font-size:clamp(28px,3.4vw,44px);line-height:1.08;letter-spacing:-.03em;margin:0;text-wrap:balance;
+    }
+    .sec-head p{margin:0;color:var(--muted);max-width:44ch}
+    .kicker{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;display:block}
+
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .tile{
+      background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+      padding:26px 24px;transition:transform .28s var(--ease),box-shadow .28s var(--ease),border-color .28s;
+    }
+    .tile:hover{transform:translateY(-4px);box-shadow:0 22px 50px -34px rgba(18,20,15,.5);border-color:#c9c4b6}
+    .tile__num{font-size:12.5px;font-weight:700;color:var(--accent);letter-spacing:.06em}
+    .tile h3{font-size:18.5px;margin:12px 0 8px;letter-spacing:-.01em;line-height:1.25}
+    .tile p{margin:0;font-size:15px;color:var(--muted)}
+    .tile__row{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:14px}
+    .tile__row b{font-family:var(--font-display);font-weight:600;font-size:17px}
+
+    /* steps */
+    .steps{background:var(--dark);color:#efece4;border-radius:calc(var(--radius) + 6px);padding:clamp(30px,4vw,54px)}
+    .steps .kicker{color:#ff8a66}
+    .steps h2{color:#fff}
+    .steps__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:36px;counter-reset:step}
+    .step{position:relative;padding-top:26px;border-top:1px solid #33363c}
+    .step::before{
+      counter-increment:step;content:counter(step,decimal-leading-zero);
+      position:absolute;top:-11px;left:0;background:var(--dark);padding-right:10px;
+      font-family:var(--font-display);font-size:13px;color:#8a8f7f;letter-spacing:.04em;
+    }
+    .step h3{font-size:16.5px;margin:0 0 8px;color:#fff;letter-spacing:-.01em}
+    .step p{margin:0;font-size:14px;color:#a9ad9f}
+    .steps .btn{margin-top:34px}
+
+    /* cases */
+    .case{
+      display:grid;grid-template-columns:64px 1fr;gap:18px;padding:22px 0;border-top:1px solid var(--line);
+    }
+    .case:last-child{border-bottom:1px solid var(--line)}
+    .case__tag{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.06em;padding-top:4px}
+    .case h3{margin:0 0 6px;font-size:18px;letter-spacing:-.01em}
+    .case p{margin:0;color:var(--muted);font-size:15px}
+    .case__metric{display:flex;gap:26px;margin-top:14px;flex-wrap:wrap}
+    .case__metric div{font-size:13px;color:var(--muted)}
+    .case__metric b{display:block;font-family:var(--font-display);font-size:19px;color:var(--ink);letter-spacing:-.02em}
+
+    /* pricing */
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+    .plan{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;display:flex;flex-direction:column}
+    .plan--hot{background:var(--ink);color:#efece4;border-color:var(--ink)}
+    .plan--hot .plan__price small,.plan--hot li{color:#b9bdaf}
+    .plan h3{margin:0 0 4px;font-size:16px;letter-spacing:.02em;text-transform:uppercase;font-weight:700;font-size:12.5px;letter-spacing:.08em}
+    .plan__price{font-family:var(--font-display);font-size:34px;letter-spacing:-.03em;margin:10px 0 4px;line-height:1}
+    .plan__price small{font-family:var(--font-body);font-size:13px;color:var(--muted);letter-spacing:0}
+    .plan ul{list-style:none;padding:0;margin:20px 0 26px;display:grid;gap:10px;font-size:14.5px;color:var(--muted)}
+    .plan li{display:flex;gap:10px;align-items:flex-start}
+    .plan li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);margin-top:8px;flex:0 0 auto}
+    .plan .btn{margin-top:auto;width:100%}
+
+    /* faq */
+    .faq{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(24px,4vw,60px)}
+    details{border-top:1px solid var(--line);padding:20px 0}
+    details:last-of-type{border-bottom:1px solid var(--line)}
+    summary{
+      list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;
+      font-weight:600;font-size:17px;align-items:center;
+    }
+    summary::-webkit-details-marker{display:none}
+    summary::after{
+      content:"";width:12px;height:12px;flex:0 0 auto;
+      border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;
+      transform:rotate(45deg) translateY(-3px);transition:transform .25s var(--ease);
+    }
+    details[open] summary::after{transform:rotate(-135deg) translateY(-1px)}
+    details p{margin:12px 0 0;color:var(--muted);font-size:15.5px;max-width:62ch}
+
+    /* cta */
+    .cta{background:var(--accent);color:var(--accent-ink);border-radius:calc(var(--radius) + 6px);padding:clamp(32px,5vw,64px)}
+    .cta__grid{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(26px,4vw,56px);align-items:center}
+    .cta h2{font-family:var(--font-display);font-size:clamp(26px,3.2vw,42px);line-height:1.08;letter-spacing:-.03em;margin:0 0 14px}
+    .cta p{margin:0;color:#4a1a0d;max-width:46ch}
+    .cta .btn{background:var(--ink);border-color:var(--ink);color:#fff}
+    .cta .btn:hover{background:#fff;color:var(--ink);border-color:#fff}
+    .cta form{display:grid;gap:10px}
+    .cta input{
+      width:100%;padding:15px 16px;border-radius:12px;border:1px solid rgba(0,0,0,.18);
+      background:#fff;color:var(--ink);font:inherit;font-size:15px;
+    }
+    .cta input:focus{outline:none;border-color:var(--ink)}
+    .cta .check{display:flex;gap:11px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:#3d1207;max-width:44ch}
+    .cta .check input{
+      appearance:none;-webkit-appearance:none;width:18px;height:18px;margin:1px 0 0;flex:0 0 auto;
+      border:1.5px solid rgba(20,10,5,.45);border-radius:5px;background:#fff;position:relative;cursor:pointer;
+    }
+    .cta .check input:checked{background:var(--ink);border-color:var(--ink)}
+    .cta .check input:checked::after{
+      content:"";position:absolute;left:5px;top:1px;width:5px;height:10px;
+      border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(45deg);
+    }
+    .cta .form-error{color:#3d1207}
+
+    /* footer */
+    .footer{padding:48px 0 34px;border-top:1px solid var(--line);margin-top:20px}
+    .footer__grid{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-start}
+    .footer p{margin:0;color:var(--muted);font-size:13.5px;max-width:40ch}
+    .footer nav{display:flex;gap:22px;flex-wrap:wrap}
+    .footer a{color:var(--muted);text-decoration:none;font-size:13.5px}
+    .footer a:hover{color:var(--ink)}
+    .footer__bottom{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+
+    /* reveal */
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+    .reveal.is-in{opacity:1;transform:none}
+    @media (prefers-reduced-motion:reduce){
+      .reveal{opacity:1;transform:none;transition:none}
+      html{scroll-behavior:auto}
+      .btn,.tile,.step{transition:none}
+    }
+
+    /* ---------- responsive ---------- */
+    @media (max-width:1020px){
+      .hero__grid{grid-template-columns:1fr;align-items:start}
+      .card-form{max-width:520px}
+      .metrics__grid{grid-template-columns:repeat(2,1fr)}
+      .metric:nth-child(3){border-left:0;padding-left:0;border-top:1px solid var(--line)}
+      .metric:nth-child(4){border-top:1px solid var(--line)}
+      .grid-3,.plans{grid-template-columns:1fr 1fr}
+      .steps__grid{grid-template-columns:1fr 1fr}
+      .sec-head{grid-template-columns:1fr}
+      .faq{grid-template-columns:1fr}
+      .cta__grid{grid-template-columns:1fr}
+    }
+    @media (max-width:720px){
+      body{font-size:16px}
+      .nav{display:none}
+      .header .btn{display:none}
+      .burger{display:block}
+      .header__in{height:68px}
+      .metrics__grid{grid-template-columns:1fr 1fr}
+      .metric{padding:20px 16px}
+      .metric:first-child{padding-left:16px}
+      .grid-3,.plans,.steps__grid{grid-template-columns:1fr}
+      .case{grid-template-columns:1fr;gap:8px}
+      .hero{padding-top:36px}
+      .nav.is-open{
+        display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;
+        background:var(--paper);border-bottom:1px solid var(--line);padding:18px 20px 26px;gap:16px;
+      }
+      .nav.is-open a{font-size:17px;color:var(--ink)}
+      .nav.is-open + .btn{display:none}
+    }
+  </style>
+</head>
+<body>
+<a class="skip" href="#main">Перейти к содержанию</a>
+
+<header class="header" id="header">
+  <div class="wrap header__in">
+    <a class="logo" href="#top" aria-label="Штат — на главную">
+      <span class="logo__mark" aria-hidden="true">Ш</span>
+      ШТАТ
+    </a>
+    <nav class="nav" id="nav" aria-label="Основная навигация">
+      <a href="#problem">Проблема</a>
+      <a href="#services">Услуги</a>
+      <a href="#process">Как работаем</a>
+      <a href="#cases">Кейсы</a>
+      <a href="#pricing">Цены</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false" aria-controls="nav">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="btn btn--sm" href="#apply">Оставить заявку <span class="arrow" aria-hidden="true">→</span></a>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap hero__grid">
+      <div>
+        <span class="eyebrow">Подбор персонала · малый бизнес</span>
+        <h1>Найдём сотрудника <em class="nb">за 7 дней</em>. Или не возьмём оплату</h1>
+        <p class="lead">Продавцы, администраторы, мастера, водители. Закрываем вакансии без резюме на 200 откликов и собеседований, которые съедают неделю.</p>
+        <div class="hero__cta">
+          <a class="btn btn--accent" href="#apply">Обсудить вакансию <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost" href="#cases">Смотреть кейсы</a>
+        </div>
+        <p class="hero__note">Бесплатно: карта зарплат по вашей вакансии в вашем городе.</p>
+      </div>
+
+      <aside class="card-form" aria-labelledby="mini-title">
+        <h2 id="mini-title">Узнать срок и стоимость</h2>
+        <p>Ответим в течение рабочего дня, без звонка «просто уточнить».</p>
+        <form id="mini-form" novalidate>
+          <div class="field">
+            <label for="mini-name">Имя</label>
+            <input id="mini-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться">
+          </div>
+          <div class="field">
+            <label for="mini-phone">Телефон</label>
+            <input id="mini-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 999 000-00-00">
+          </div>
+          <div class="field">
+            <label for="mini-role">Кого ищете</label>
+            <select id="mini-role" name="role">
+              <option>Продавец / консультант</option>
+              <option>Администратор</option>
+              <option>Мастер / специалист</option>
+              <option>Водитель</option>
+              <option>Другое</option>
+            </select>
+          </div>
+          <button class="btn" type="submit">Отправить</button>
+          <p class="form-error" id="mini-error" role="alert">Проверьте имя и телефон — нужно минимум 10 цифр.</p>
+          <p class="fine">Нажимая кнопку, вы соглашаетесь с <a href="#footer">политикой обработки данных</a>.</p>
+          <div class="form-ok" id="mini-ok" role="status">
+            <strong>Заявка ушла</strong>
+            Свяжемся в течение рабочего дня и назовём срок по вашей вакансии.
+          </div>
+        </form>
+      </aside>
+    </div>
+  </section>
+
+  <div class="metrics" aria-label="Показатели">
+    <div class="wrap metrics__grid">
+      <div class="metric"><b>2 400</b><span>закрытых вакансий с 2019 года</span></div>
+      <div class="metric"><b>7 дней</b><span>средний срок до финалистов</span></div>
+      <div class="metric"><b>94%</b><span>кандидатов доходят до оффера</span></div>
+      <div class="metric"><b>30 дней</b><span>гарантия замены по договору</span></div>
+    </div>
+  </div>
+
+  <section id="problem">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <span class="kicker">Почему буксует найм</span>
+          <h2>Три вещи, которые съедают месяц и бюджет</h2>
+        </div>
+        <p>Обычный найм — это не поиск человека, а перебор резюме. Мы убираем перебор и оставляем решение.</p>
+      </div>
+      <div class="grid-3">
+        <article class="tile reveal">
+          <span class="tile__num">01</span>
+          <h3>Отклики не те</h3>
+          <p>Из 200 резюме 160 — не про вашу вакансию: другой график, опыт, город. Вы платите за просмотр, а не за человека.</p>
+        </article>
+        <article class="tile reveal">
+          <span class="tile__num">02</span>
+          <h3>Сроки плывут</h3>
+          <p>Пока идёт поиск, точка стоит или смена держится на одном человеке. Каждая неделя простоя — минус выручка.</p>
+        </article>
+        <article class="tile reveal">
+          <span class="tile__num">03</span>
+          <h3>Собеседования съедают день</h3>
+          <p>12 звонков, чтобы найти одного. Мы приводим трёх финалистов с оценкой — вы выбираете, а не отсеиваете.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <span class="kicker">Услуги</span>
+          <h2>Под задачу, а не «пакетом»</h2>
+        </div>
+        <p>Берём позиции, где важны скорость и предсказуемость: розница, HoReCa, клиники, логистика.</p>
+      </div>
+      <div class="grid-3">
+        <article class="tile reveal">
+          <h3>Точечный подбор</h3>
+          <p>Одна позиция, один город. Скрининг, интервью, три финалиста с оценкой и рекомендациями.</p>
+          <div class="tile__row"><span>7 дней</span><b>25 000 ₽</b></div>
+        </article>
+        <article class="tile reveal">
+          <h3>Массовый подбор</h3>
+          <p>От пяти позиций: сеть точек, смены, сезонный набор. Ведём поток и держим воронку.</p>
+          <div class="tile__row"><span>от 5 позиций</span><b>от 18 000 ₽</b></div>
+        </article>
+        <article class="tile reveal">
+          <h3>Аутсорс на смену</h3>
+          <p>Нужен человек завтра — дадим проверенного на день или два, без обязательств и оформления.</p>
+          <div class="tile__row"><span>1–2 дня</span><b>4 500 ₽</b></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" style="padding-top:0">
+    <div class="wrap">
+      <div class="steps reveal">
+        <span class="kicker">Как работаем</span>
+        <h2>Четыре шага, без «мы вам перезвоним»</h2>
+        <div class="steps__grid">
+          <div class="step">
+            <h3>Бриф, 40 минут</h3>
+            <p>Разбираем задачу: кто нужен, за какие деньги, что мешает закрыть вакансию сейчас.</p>
+          </div>
+          <div class="step">
+            <h3>Портрет и оффер</h3>
+            <p>Формулируем, чем вы лучше соседа по улице. Без этого кандидаты уходят в первую точку.</p>
+          </div>
+          <div class="step">
+            <h3>Поиск и скрининг</h3>
+            <p>50+ контактов, 8–10 интервью, проверка документов и рекомендаций.</p>
+          </div>
+          <div class="step">
+            <h3>Три финалиста</h3>
+            <p>Вы выбираете из трёх с оценкой, а не из трёхсот. Дальше — выход и гарантия 30 дней.</p>
+          </div>
+        </div>
+        <a class="btn btn--accent" href="#apply">Записаться на бриф <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="cases" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <span class="kicker">Кейсы</span>
+          <h2>Что было на входе и что получилось</h2>
+        </div>
+        <p>Не «успешные проекты», а сроки и цифры. Все кейсы — с согласия клиентов.</p>
+      </div>
+      <div class="reveal">
+        <article class="case">
+          <span class="case__tag">HoReCa</span>
+          <div>
+            <h3>Кофейня на Покровке: три бариста за 11 дней</h3>
+            <p>Точка открывалась, нужны люди со сменным графиком и без опыта. Давали оффер на месте.</p>
+            <div class="case__metric">
+              <div><b>11 дней</b>от брифа до выхода</div>
+              <div><b>3 из 3</b>закрыли позиции</div>
+              <div><b>0</b>дней простоя точки</div>
+            </div>
+          </div>
+        </article>
+        <article class="case">
+          <span class="case__tag">Клиники</span>
+          <div>
+            <h3>Сеть из четырёх клиник: 14 администраторов за 3 недели</h3>
+            <p>Текучка на ресепшене: уходили на втором месяце. Пересобрали портрет и график собеседований.</p>
+            <div class="case__metric">
+              <div><b>14 человек</b>принято</div>
+              <div><b>−38%</b>текучесть за квартал</div>
+              <div><b>3 недели</b>полный набор</div>
+            </div>
+          </div>
+        </article>
+        <article class="case">
+          <span class="case__tag">Логистика</span>
+          <div>
+            <h3>Водители на маршруты: шесть человек за 9 дней</h3>
+            <p>Нужны права категории «С» и опыт. Проверяли документы до интервью, чтобы не тратить выход.</p>
+            <div class="case__metric">
+              <div><b>9 дней</b>срок закрытия</div>
+              <div><b>0</b>отказов на испытательном</div>
+              <div><b>−7 дней</b>к прошлому подрядчику</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <span class="kicker">Цены</span>
+          <h2>Стоимость известна до старта</h2>
+        </div>
+        <p>Без «зависит от задач». Оплата в два шага: после финалистов и после выхода сотрудника.</p>
+      </div>
+      <div class="plans">
+        <article class="plan reveal">
+          <h3>Старт</h3>
+          <div class="plan__price">25 000 ₽ <small>/ позиция</small></div>
+          <ul>
+            <li>Одна вакансия</li>
+            <li>Бриф и портрет кандидата</li>
+            <li>Три финалиста с оценкой</li>
+            <li>Гарантия замены 30 дней</li>
+          </ul>
+          <a class="btn btn--ghost" href="#apply">Выбрать</a>
+        </article>
+        <article class="plan plan--hot reveal">
+          <h3>Поток</h3>
+          <div class="plan__price">18 000 ₽ <small>/ позиция</small></div>
+          <ul>
+            <li>От пяти позиций</li>
+            <li>Ведение воронки и отчёты</li>
+            <li>Приоритет по срокам</li>
+            <li>Гарантия замены 60 дней</li>
+          </ul>
+          <a class="btn btn--accent" href="#apply">Обсудить</a>
+        </article>
+        <article class="plan reveal">
+          <h3>Смена</h3>
+          <div class="plan__price">4 500 ₽ <small>/ смена</small></div>
+          <ul>
+            <li>Проверенный человек на день-два</li>
+            <li>Без оформления и обязательств</li>
+            <li>Подмена за 24 часа</li>
+            <li>Оплата по факту</li>
+          </ul>
+          <a class="btn btn--ghost" href="#apply">Выбрать</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" style="padding-top:0">
+    <div class="wrap faq">
+      <div class="reveal">
+        <span class="kicker">Вопросы</span>
+        <h2>Что обычно спрашивают</h2>
+      </div>
+      <div class="reveal">
+        <details open>
+          <summary>А если человек уйдёт через неделю?</summary>
+          <p>Гарантия 30 дней: если сотрудник ушёл по своей инициативе или не прошёл испытательный, заменяем бесплатно. В тарифе «Поток» — 60 дней.</p>
+        </details>
+        <details>
+          <summary>Как проходит оплата?</summary>
+          <p>50% после того, как вы утвердили финалистов, 50% — после выхода сотрудника. Никаких предоплат «за поиск».</p>
+        </details>
+        <details>
+          <summary>Вы проверяете кандидатов?</summary>
+          <p>Да: документы, подтверждение опыта, рекомендации с прошлых мест. Для водителей — права и стаж, для клиник — санитарные требования.</p>
+        </details>
+        <details>
+          <summary>Работаете только в Москве?</summary>
+          <p>Работаем по России. Собеседования в вашем городе организуем сами — это входит в стоимость.</p>
+        </details>
+        <details>
+          <summary>Чем вы отличаетесь от кадрового агентства?</summary>
+          <p>Мы работаем только с малым бизнесом и только с позициями, где можем закрыть за 7–14 дней. Не берём вакансии, где не уверены в результате.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="apply" style="padding-top:0">
+    <div class="wrap">
+      <div class="cta reveal">
+        <div class="cta__grid">
+          <div>
+            <h2>Расскажите, кого ищете — вернёмся со сроком и ценой</h2>
+            <p>Не продаём «консультацию». Скажем прямо: закроем за 7 дней, за 14 — или не возьмёмся.</p>
+          </div>
+          <form id="main-form" novalidate>
+            <input type="text" name="name" placeholder="Имя" autocomplete="name" aria-label="Имя">
+            <input type="tel" name="phone" placeholder="+7 999 000-00-00" autocomplete="tel" aria-label="Телефон">
+            <input type="text" name="vacancy" placeholder="Кого ищете и в каком городе" aria-label="Вакансия и город">
+            <label class="check">
+              <input type="checkbox" name="consent" required>
+              <span>Согласен с обработкой персональных данных и получением ответа по заявке</span>
+            </label>
+            <p class="form-error" id="main-error" role="alert">Заполните имя, телефон и согласие.</p>
+            <button class="btn" type="submit">Отправить заявку <span class="arrow" aria-hidden="true">→</span></button>
+            <div class="form-ok" id="main-ok" role="status">
+              <strong>Заявка ушла</strong>
+              Вернёмся с ответом в течение рабочего дня.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer" id="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="logo" href="#top" aria-label="Штат — на главную">
+          <span class="logo__mark" aria-hidden="true">Ш</span>
+          ШТАТ
+        </a>
+        <p style="margin-top:14px">Подбор персонала для малого бизнеса. Москва и регионы, офлайн-собеседования в вашем городе.</p>
+      </div>
+      <nav aria-label="Навигация в подвале">
+        <a href="#services">Услуги</a>
+        <a href="#process">Как работаем</a>
+        <a href="#pricing">Цены</a>
+        <a href="#faq">Вопросы</a>
+        <a href="#apply">Заявка</a>
+      </nav>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Штат. Все права защищены.</span>
+      <span>Политика обработки персональных данных · Договор оферты</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* header state */
+  var header = document.getElementById("header");
+  var onScroll = function () {
+    header.classList.toggle("is-stuck", window.scrollY > 8);
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* mobile nav */
+  var burger = document.getElementById("burger");
+  var nav = document.getElementById("nav");
+  if (burger && nav) {
+    burger.addEventListener("click", function () {
+      var open = burger.getAttribute("aria-expanded") === "true";
+      burger.setAttribute("aria-expanded", String(!open));
+      nav.classList.toggle("is-open", !open);
+    });
+    nav.addEventListener("click", function (e) {
+      if (e.target.tagName === "A") {
+        burger.setAttribute("aria-expanded", "false");
+        nav.classList.remove("is-open");
+      }
+    });
+  }
+
+  /* reveal on scroll */
+  var items = Array.prototype.slice.call(document.querySelectorAll(".reveal"));
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -40px 0px" });
+    items.forEach(function (el) { io.observe(el); });
+  } else {
+    items.forEach(function (el) { el.classList.add("is-in"); });
+  }
+
+  /* forms */
+  function digits(value) { return (value || "").replace(/\D/g, ""); }
+
+  function phoneOk(value) {
+    var d = digits(value);
+    return d.length >= 10 && d.length <= 12;
+  }
+
+  function setupForm(formId, errorId, okId, fields) {
+    var form = document.getElementById(formId);
+    var error = document.getElementById(errorId);
+    var ok = document.getElementById(okId);
+    if (!form || !error || !ok) return;
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var valid = true;
+      fields.forEach(function (name) {
+        var input = form.querySelector('[name="' + name + '"]');
+        if (!input) return;
+        var value = input.value.trim();
+        var bad = name === "phone" ? !phoneOk(value) : value.length < 2;
+        if (name === "consent") bad = !input.checked;
+        input.setAttribute("aria-invalid", String(bad));
+        if (bad) valid = false;
+      });
+      error.classList.toggle("is-visible", !valid);
+      if (!valid) return;
+
+      error.classList.remove("is-visible");
+      form.querySelectorAll("input, select, button").forEach(function (el) { el.disabled = true; });
+      ok.classList.add("is-visible");
+      ok.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "nearest" });
+    });
+
+    form.addEventListener("input", function (e) {
+      if (e.target.getAttribute) e.target.setAttribute("aria-invalid", "false");
+    });
+  }
+
+  setupForm("mini-form", "mini-error", "mini-ok", ["name", "phone"]);
+  setupForm("main-form", "main-error", "main-ok", ["name", "phone", "consent"]);
+
+  /* smooth anchors with header offset (native fallback) */
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      var id = link.getAttribute("href");
+      if (id === "#" || id.length < 2) return;
+      var target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      var top = target.getBoundingClientRect().top + window.pageYOffset - 84;
+      window.scrollTo({ top: top, behavior: reduceMotion ? "auto" : "smooth" });
+      history.replaceState(null, "", id);
+    });
+  });
+})();
+</script>
+</body>
+</html>
