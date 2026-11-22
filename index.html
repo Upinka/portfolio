@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Портфолио — лендинги на чистом HTML/CSS/JS</title>
+<meta name="description" content="Примеры лендингов: подбор персонала, сервис ремонта, стоматология, архитектурное бюро, фитнес-клуб.">
+<style>
+  :root{
+    --bg:#f4f2ed; --ink:#12140f; --muted:#5f635a; --line:#d8d4c8; --accent:#e8441f;
+    --font:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{width:min(100% - 40px,1100px);margin-inline:auto;padding:56px 0 64px}
+  h1{font-size:clamp(30px,4.6vw,52px);line-height:1.05;letter-spacing:-.03em;margin:0 0 14px}
+  h1 em{font-style:normal;color:var(--accent)}
+  .lead{color:var(--muted);max-width:56ch;margin:0 0 40px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;transition:transform .22s ease,box-shadow .22s ease,border-color .22s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 20px 44px -34px rgba(18,20,15,.5);border-color:#c9c4b6}
+  .tag{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+  h2{font-size:19px;margin:10px 0 6px;letter-spacing:-.01em}
+  .card p{margin:0;color:var(--muted);font-size:14px}
+  .meta{display:flex;justify-content:space-between;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+  .meta b{color:var(--ink)}
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  @media (max-width:720px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Лендинги на <em>чистом коде</em></h1>
+  <p class="lead">Пять примеров: HTML/CSS/JS без конструкторов и библиотек. Адаптив, формы с валидацией, доступность. Каждая страница — один файл.</p>
+
+  <div class="grid">
+    <a class="card" href="./landing-job/">
+      <span class="tag">Подбор персонала</span>
+      <h2>ШТАТ — найм за 7 дней</h2>
+      <p>Editorial-стиль, серифная типографика, 9 блоков, две формы.</p>
+      <div class="meta"><span>9 блоков</span><b>38 КБ</b></div>
+    </a>
+    <a class="card" href="./landing-econom/">
+      <span class="tag">Сервис ремонта</span>
+      <h2>ПРОТОН — техника за 40 минут</h2>
+      <p>Яркая утилитарная подача, синий акцент, короткая структура.</p>
+      <div class="meta"><span>5 блоков</span><b>14 КБ</b></div>
+    </a>
+    <a class="card" href="./landing-standart/">
+      <span class="tag">Стоматология</span>
+      <h2>Белый Кит — лечение без страха</h2>
+      <p>Мягкая палитра, серифы, врачи, прайс, FAQ и запись.</p>
+      <div class="meta"><span>9 блоков</span><b>21 КБ</b></div>
+    </a>
+    <a class="card" href="./landing-premium/">
+      <span class="tag">Архитектурное бюро</span>
+      <h2>ОСЬ — пространство для жизни</h2>
+      <p>Тёмная тема, крупная типографика, калькулятор стоимости на JS.</p>
+      <div class="meta"><span>14 блоков</span><b>24 КБ</b></div>
+    </a>
+    <a class="card" href="./landing-max/">
+      <span class="tag">Фитнес-клуб</span>
+      <h2>ГРАВИТАЦИЯ — тело, которое слушается</h2>
+      <p>Квиз из 3 шагов, калькулятор, табы, карусель и отчёт о скорости.</p>
+      <div class="meta"><span>16 блоков</span><b>41 КБ</b></div>
+    </a>
+    <a class="card" href="./landing-max/#report">
+      <span class="tag">Отчёт</span>
+      <h2>Производительность</h2>
+      <p>Lighthouse 98/100, вес 41 КБ, FCP 1,1 с — замеры на мобильном 4G.</p>
+      <div class="meta"><span>метрики</span><b>98 / 100</b></div>
+    </a>
+  </div>
+
+  <footer>
+    <span>Сделано на чистом HTML/CSS/JS · один файл на страницу</span>
+    <span>2026</span>
+  </footer>
+</div>
+</body>
+</html>
