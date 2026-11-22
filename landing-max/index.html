@@ -1,0 +1,662 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ГРАВИТАЦИЯ — премиальный фитнес-клуб</title>
+<meta name="description" content="Фитнес-клуб «Гравитация»: персональные тренировки, групповые форматы, бассейн и восстановление. Пробное занятие бесплатно.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0b0d0b; --bg2:#101310; --card:#141813; --ink:#eaf2e3; --muted:#8a947f;
+    --lime:#c8ff4d; --line:#262c22; --dark:#050605;
+    --body:"Manrope",system-ui,sans-serif; --display:"Oswald","Manrope",sans-serif;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .wrap{width:min(100% - 40px,1240px);margin-inline:auto}
+  a{color:inherit}
+  ::selection{background:var(--lime);color:#0b0d0b}
+  :focus-visible{outline:2px solid var(--lime);outline-offset:3px;border-radius:4px}
+  h1,h2,h3,.display{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.01em;line-height:.95;margin:0}
+  h1{font-size:clamp(44px,8vw,112px)}
+  h2{font-size:clamp(30px,4.6vw,64px)}
+  h3{font-size:clamp(20px,2vw,26px);line-height:1.1}
+  .lead{color:var(--muted);font-size:16.5px;max-width:52ch}
+  .mono{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+  /* progress */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--lime);z-index:100;transition:width .1s linear}
+
+  /* header */
+  .top{position:fixed;inset:0 0 auto;z-index:60;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+  .top.stuck{background:rgba(11,13,11,.94);backdrop-filter:blur(12px);border-color:var(--line)}
+  .top__in{display:flex;align-items:center;gap:28px;height:74px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--display);font-size:21px;letter-spacing:.14em;text-transform:uppercase}
+  .brand i{width:26px;height:26px;background:var(--lime);color:#0b0d0b;display:grid;place-items:center;font-style:normal;font-size:14px;font-weight:700}
+  .nav{display:flex;gap:24px;margin-left:auto;font-size:13.5px;font-weight:500;color:var(--muted)}
+  .nav a{text-decoration:none;transition:color .2s}
+  .nav a:hover{color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:15px 24px;background:var(--lime);color:#0b0d0b;text-decoration:none;font-weight:700;font-size:13.5px;letter-spacing:.04em;text-transform:uppercase;border:1px solid var(--lime);cursor:pointer;transition:transform .2s var(--ease),background .2s,color .2s}
+  .btn:hover{transform:translateY(-2px);background:transparent;color:var(--lime)}
+  .btn--ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn--ghost:hover{border-color:var(--lime);color:var(--lime)}
+  .burger{display:none;margin-left:auto;width:44px;height:44px;background:transparent;border:1px solid var(--line);position:relative;cursor:pointer}
+  .burger span{position:absolute;left:12px;right:12px;height:2px;background:var(--ink);transition:transform .3s,opacity .2s}
+  .burger span:nth-child(1){top:15px}.burger span:nth-child(2){top:21px}.burger span:nth-child(3){top:27px}
+  .burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+  .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+  /* hero */
+  .hero{padding:150px 0 0;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-10%;top:8%;width:60%;height:80%;background:radial-gradient(circle at 60% 40%,rgba(200,255,77,.14),transparent 62%);pointer-events:none}
+  .hero__grid{display:grid;grid-template-columns:1.25fr .75fr;gap:40px;align-items:end;position:relative;z-index:2}
+  .hero h1 span{color:var(--lime)}
+  .hero__meta{display:flex;gap:34px;margin:34px 0 0;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:24px}
+  .hero__meta div{font-size:12.5px;color:var(--muted);max-width:20ch}
+  .hero__meta b{display:block;font-family:var(--display);font-size:30px;color:var(--ink);line-height:1;margin-bottom:6px}
+  .hero__right{background:var(--card);border:1px solid var(--line);padding:28px}
+  .hero__right h3{margin-bottom:8px}
+  .hero__right p{margin:0 0 18px;color:var(--muted);font-size:13.5px}
+  .field{margin-bottom:11px}
+  .field label{display:block;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:600}
+  .field input,.field select{width:100%;padding:13px 14px;background:var(--bg);border:1px solid var(--line);color:var(--ink);font:inherit;font-size:14.5px}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--lime)}
+  .hero__right .btn{width:100%;margin-top:6px}
+  .note{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.45}
+
+  /* marquee */
+  .marquee{border-block:1px solid var(--line);padding:16px 0;margin-top:64px;overflow:hidden;white-space:nowrap}
+  .marquee__in{display:inline-flex;gap:36px;animation:slide 26s linear infinite;will-change:transform}
+  .marquee span{font-family:var(--display);font-size:19px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .marquee span::after{content:"◆";color:var(--lime);margin-left:36px;font-size:12px}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion:reduce){.marquee__in{animation:none}html{scroll-behavior:auto}}
+
+  section{padding:clamp(60px,8vw,110px) 0}
+  .sec-top{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:44px;flex-wrap:wrap}
+  .sec-top .lead{margin:14px 0 0}
+
+  /* programs */
+  .programs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .prog{background:var(--card);border:1px solid var(--line);padding:26px;transition:border-color .25s,transform .25s var(--ease)}
+  .prog:hover{border-color:var(--lime);transform:translateY(-4px)}
+  .prog .num{font-family:var(--display);color:var(--lime);font-size:13px;letter-spacing:.1em}
+  .prog h3{margin:14px 0 8px}
+  .prog p{margin:0;color:var(--muted);font-size:14px}
+  .prog .meta{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between}
+
+  /* tabs */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+  .tab{padding:11px 18px;border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:13px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+  .tab[aria-selected="true"]{background:var(--lime);border-color:var(--lime);color:#0b0d0b}
+  .panel{display:none}
+  .panel.on{display:block}
+  .schedule{width:100%;border-collapse:collapse;font-size:14.5px}
+  .schedule th,.schedule td{text-align:left;padding:15px 12px;border-bottom:1px solid var(--line)}
+  .schedule th{font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:12px;color:var(--muted);font-weight:600}
+  .schedule td b{color:var(--ink);font-weight:600}
+  .schedule td span{color:var(--muted)}
+  .schedule .slot{color:var(--lime);white-space:nowrap}
+
+  /* trainers */
+  .trainers{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .tr{background:var(--card);border:1px solid var(--line)}
+  .tr .ph{height:260px;background:linear-gradient(160deg,#20261b,#0d0f0c);position:relative;overflow:hidden}
+  .tr .ph::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 25%,rgba(200,255,77,.16),transparent 60%)}
+  .tr .ph.b{background:linear-gradient(160deg,#1b2229,#0c0e10)}
+  .tr .ph.c{background:linear-gradient(160deg,#241f1b,#100e0c)}
+  .tr .body{padding:20px}
+  .tr b{display:block;font-size:16px}
+  .tr span{display:block;color:var(--muted);font-size:13px;margin-top:3px}
+
+  /* calculator */
+  .calc{background:var(--bg2);border:1px solid var(--line);padding:clamp(26px,4vw,46px);display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  .calc label{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:10px}
+  .calc .val{color:var(--lime);margin-left:8px}
+  .calc input[type=range]{width:100%;accent-color:var(--lime)}
+  .calc .row{margin-bottom:26px}
+  .calc .out{font-family:var(--display);font-size:clamp(38px,5vw,60px);line-height:1;text-transform:none}
+  .calc .out small{display:block;font-family:var(--body);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-weight:600}
+  .calc .opts{display:flex;gap:8px;flex-wrap:wrap}
+  .calc .opt{padding:10px 16px;border:1px solid var(--line);background:transparent;color:var(--muted);font:inherit;font-size:13px;cursor:pointer;transition:all .2s}
+  .calc .opt[aria-pressed="true"]{background:var(--lime);border-color:var(--lime);color:#0b0d0b;font-weight:600}
+
+  /* quiz */
+  .quiz{background:var(--card);border:1px solid var(--line);padding:clamp(24px,3.5vw,40px)}
+  .quiz__head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:26px}
+  .quiz__bar{height:4px;background:var(--line);flex:1;max-width:320px}
+  .quiz__bar i{display:block;height:100%;width:33%;background:var(--lime);transition:width .35s var(--ease)}
+  .quiz .step{display:none}
+  .quiz .step.on{display:block}
+  .quiz .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 22px}
+  .quiz .pick{text-align:left;padding:15px 16px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px;cursor:pointer;transition:all .2s}
+  .quiz .pick:hover{border-color:var(--lime)}
+  .quiz .pick[aria-pressed="true"]{border-color:var(--lime);background:rgba(200,255,77,.08)}
+  .quiz .foot{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .quiz .msg{font-size:13px;color:var(--muted)}
+
+  /* reviews */
+  .rev-scroll{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(320px,1fr);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px}
+  .rev-scroll::-webkit-scrollbar{height:4px}
+  .rev-scroll::-webkit-scrollbar-thumb{background:var(--line)}
+  .rev-card{scroll-snap-align:start;background:var(--card);border:1px solid var(--line);padding:24px}
+  .rev-card p{margin:0 0 16px;font-size:16px}
+  .rev-card span{color:var(--muted);font-size:12.5px}
+
+  /* report */
+  .report{background:var(--bg2);border:1px solid var(--line)}
+  .report__head{padding:26px 28px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:baseline}
+  .report__grid{display:grid;grid-template-columns:repeat(4,1fr)}
+  .rep{padding:24px 28px;border-right:1px solid var(--line)}
+  .rep:last-child{border-right:0}
+  .rep b{display:block;font-family:var(--display);font-size:clamp(26px,3vw,38px);line-height:1;color:var(--lime)}
+  .rep span{display:block;color:var(--muted);font-size:12.5px;margin-top:8px}
+  .report__note{padding:18px 28px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+
+  /* guarantees */
+  .guar{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .g{display:flex;gap:14px;padding:22px;border:1px solid var(--line)}
+  .g i{width:34px;height:34px;background:var(--lime);color:#0b0d0b;display:grid;place-items:center;font-style:normal;font-weight:700;flex:0 0 auto}
+  .g b{display:block;font-size:15px;margin-bottom:4px}
+  .g p{margin:0;color:var(--muted);font-size:13.5px}
+
+  /* faq */
+  details{border-top:1px solid var(--line);padding:20px 0}
+  details:last-of-type{border-bottom:1px solid var(--line)}
+  summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:20px;font-family:var(--display);font-size:clamp(17px,1.8vw,21px);text-transform:uppercase;letter-spacing:.02em}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--lime);font-family:var(--body);font-size:22px;line-height:1}
+  details[open] summary::after{content:"−"}
+  details p{margin:12px 0 0;color:var(--muted);font-size:14.5px;max-width:70ch}
+
+  /* cta */
+  .cta{background:var(--lime);color:#0b0d0b;padding:clamp(30px,5vw,64px);display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+  .cta h2{color:#0b0d0b}
+  .cta p{margin:14px 0 0;color:#2b3315;font-size:15.5px}
+  .cta .btn{background:#0b0d0b;border-color:#0b0d0b;color:var(--lime)}
+  .cta .btn:hover{background:transparent;color:#0b0d0b}
+
+  footer{padding:40px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+
+  /* modal */
+  dialog{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0;max-width:min(92vw,480px);width:100%}
+  dialog::backdrop{background:rgba(5,6,5,.72);backdrop-filter:blur(4px)}
+  .modal{padding:28px}
+  .modal h3{margin-bottom:8px}
+  .modal p{color:var(--muted);font-size:13.5px;margin:0 0 18px}
+  .modal .close{position:absolute;right:14px;top:12px;background:transparent;border:0;color:var(--muted);font-size:22px;cursor:pointer;line-height:1}
+  .modal .btn{width:100%;margin-top:6px}
+
+  .sticky-bar{display:none}
+
+  .ok{display:none;color:var(--lime);font-size:13.5px;margin-top:10px;font-weight:600}
+  .ok.on{display:block}
+  .err{display:none;color:#ff9b8f;font-size:12.5px;margin-top:8px}
+  .err.on{display:block}
+
+  .rev{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .rev.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.rev{opacity:1;transform:none;transition:none}}
+
+  @media (max-width:1020px){
+    .hero__grid,.cta,.calc{grid-template-columns:1fr}
+    .programs,.trainers,.guar{grid-template-columns:1fr 1fr}
+    .report__grid{grid-template-columns:1fr 1fr}
+    .rep:nth-child(2){border-right:0}
+    .rep:nth-child(3),.rep:nth-child(4){border-top:1px solid var(--line)}
+    .nav{display:none}
+    .burger{display:block}
+    .top .btn{display:none}
+  }
+  @media (max-width:640px){
+    .programs,.trainers,.guar,.quiz .opts{grid-template-columns:1fr}
+    .report__grid{grid-template-columns:1fr}
+    .rep{border-right:0;border-top:1px solid var(--line)}
+    .rep:first-child{border-top:0}
+    .sticky-bar{
+      display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;
+      background:rgba(11,13,11,.96);border-top:1px solid var(--line);padding:10px 16px;gap:10px;
+    }
+    .sticky-bar .btn{flex:1;padding:13px}
+    footer{padding-bottom:84px}
+    h1{font-size:48px}
+    .hero__meta{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .hero__meta b{font-size:24px}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<header class="top" id="top">
+  <div class="wrap top__in">
+    <a class="brand" href="#top"><i>Г</i> Гравитация</a>
+    <nav class="nav" id="nav">
+      <a href="#programs">Форматы</a><a href="#schedule">Расписание</a><a href="#trainers">Тренеры</a>
+      <a href="#calc">Стоимость</a><a href="#report">Отчёт</a><a href="#faq">Вопросы</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+    <a class="btn" href="#quiz">Пробное занятие</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div>
+          <span class="mono">Москва · 3 зала · с 2016</span>
+          <h1 style="margin:18px 0 22px">Тело, которое <span>слушается</span></h1>
+          <p class="lead">Персональные тренировки, групповые форматы и восстановление. Без очередей к тренажёрам и «мотивационных» криков.</p>
+          <div class="hero__meta">
+            <div><b>1 200 м²</b>зал и бассейн</div>
+            <div><b>18</b>тренеров с сертификатами</div>
+            <div><b>94%</b>продлевают абонемент</div>
+          </div>
+        </div>
+        <aside class="hero__right">
+          <h3>Первое занятие — 0 ₽</h3>
+          <p>Покажем зал, проведём тест состава тела и подберём формат.</p>
+          <form id="heroForm" novalidate>
+            <div class="field"><label for="hn">Имя</label><input id="hn" name="name" type="text" placeholder="Как вас зовут" autocomplete="name"></div>
+            <div class="field"><label for="hp">Телефон</label><input id="hp" name="phone" type="tel" placeholder="+7 999 000-00-00" autocomplete="tel"></div>
+            <button class="btn" type="submit">Записаться бесплатно</button>
+            <div class="err" id="he">Проверьте имя и телефон.</div>
+            <div class="ok" id="ho">Готово! Перезвоним в течение 15 минут.</div>
+            <p class="note">Без навязывания и звонков «просто узнать». Отписаться можно в любой момент.</p>
+          </form>
+        </aside>
+      </div>
+    </div>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__in">
+        <span>Сила</span><span>Выносливость</span><span>Мобильность</span><span>Восстановление</span><span>Бассейн</span><span>Персональные</span>
+        <span>Сила</span><span>Выносливость</span><span>Мобильность</span><span>Восстановление</span><span>Бассейн</span><span>Персональные</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="programs">
+    <div class="wrap">
+      <div class="sec-top rev">
+        <div><span class="mono">01 — Форматы</span><h2>Три пути к результату</h2><p class="lead">Не «всё сразу», а один формат под вашу задачу. Формат можно менять раз в месяц.</p></div>
+        <a class="btn btn--ghost" href="#quiz">Подобрать формат</a>
+      </div>
+      <div class="programs">
+        <article class="prog rev"><span class="num">01</span><h3>Персональные</h3><p>Тренер, программа и контроль техники. Для тех, кому нужен быстрый и предсказуемый результат.</p><div class="meta"><span>60 минут</span><span>от 4 500 ₽</span></div></article>
+        <article class="prog rev"><span class="num">02</span><h3>Групповые</h3><p>До 8 человек: силовые, интервальные, растяжка. Расписание с 7:00 до 22:00.</p><div class="meta"><span>45–55 минут</span><span>от 1 200 ₽</span></div></article>
+        <article class="prog rev"><span class="num">03</span><h3>Восстановление</h3><p>Бассейн, сауна, миофасциальный массаж и сон-рум. Чтобы тренировки не превращались в насилие.</p><div class="meta"><span>без лимита</span><span>включено</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="schedule" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-top rev"><div><span class="mono">02 — Расписание</span><h2>Что происходит в зале</h2></div><span class="mono">Обновляется каждую неделю</span></div>
+      <div class="tabs" role="tablist" aria-label="Дни недели">
+        <button class="tab" role="tab" aria-selected="true" aria-controls="d1" id="t1">Пн</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="d2" id="t2">Ср</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="d3" id="t3">Пт</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="d4" id="t4">Сб</button>
+      </div>
+      <div class="panel on" id="d1" role="tabpanel" aria-labelledby="t1">
+        <table class="schedule"><thead><tr><th>Время</th><th>Занятие</th><th>Тренер</th><th>Мест</th></tr></thead><tbody>
+          <tr><td class="slot">07:00</td><td><b>Сила и тонус</b><br><span>зал 1</span></td><td>Пётр Ланской</td><td>3 из 8</td></tr>
+          <tr><td class="slot">09:30</td><td><b>Интервалы</b><br><span>зал 2</span></td><td>Мария Осокина</td><td>5 из 8</td></tr>
+          <tr><td class="slot">19:00</td><td><b>Растяжка и мобильность</b><br><span>зал 3</span></td><td>Ирина Гай</td><td>2 из 6</td></tr>
+        </tbody></table>
+      </div>
+      <div class="panel" id="d2" role="tabpanel" aria-labelledby="t2">
+        <table class="schedule"><thead><tr><th>Время</th><th>Занятие</th><th>Тренер</th><th>Мест</th></tr></thead><tbody>
+          <tr><td class="slot">08:00</td><td><b>Фулбоди</b><br><span>зал 1</span></td><td>Пётр Ланской</td><td>4 из 8</td></tr>
+          <tr><td class="slot">12:00</td><td><b>Плавание</b><br><span>бассейн</span></td><td>Анна Ковалёва</td><td>6 из 10</td></tr>
+          <tr><td class="slot">20:00</td><td><b>Сила и тонус</b><br><span>зал 2</span></td><td>Мария Осокина</td><td>1 из 8</td></tr>
+        </tbody></table>
+      </div>
+      <div class="panel" id="d3" role="tabpanel" aria-labelledby="t3">
+        <table class="schedule"><thead><tr><th>Время</th><th>Занятие</th><th>Тренер</th><th>Мест</th></tr></thead><tbody>
+          <tr><td class="slot">07:30</td><td><b>Интервалы</b><br><span>зал 2</span></td><td>Ирина Гай</td><td>5 из 8</td></tr>
+          <tr><td class="slot">18:00</td><td><b>Растяжка и мобильность</b><br><span>зал 3</span></td><td>Анна Ковалёва</td><td>3 из 6</td></tr>
+          <tr><td class="slot">21:00</td><td><b>Фулбоди</b><br><span>зал 1</span></td><td>Пётр Ланской</td><td>2 из 8</td></tr>
+        </tbody></table>
+      </div>
+      <div class="panel" id="d4" role="tabpanel" aria-labelledby="t4">
+        <table class="schedule"><thead><tr><th>Время</th><th>Занятие</th><th>Тренер</th><th>Мест</th></tr></thead><tbody>
+          <tr><td class="slot">10:00</td><td><b>Сила и тонус</b><br><span>зал 1</span></td><td>Мария Осокина</td><td>6 из 8</td></tr>
+          <tr><td class="slot">12:30</td><td><b>Плавание</b><br><span>бассейн</span></td><td>Анна Ковалёва</td><td>4 из 10</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <section id="trainers" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-top rev"><div><span class="mono">03 — Команда</span><h2>Тренеры, к которым возвращаются</h2></div><span class="mono">Сертификаты и медобразование</span></div>
+      <div class="trainers">
+        <article class="tr rev"><div class="ph"></div><div class="body"><b>Пётр Ланской</b><span>Силовой тренинг · 9 лет</span></div></article>
+        <article class="tr rev"><div class="ph b"></div><div class="body"><b>Мария Осокина</b><span>Функциональный тренинг · 7 лет</span></div></article>
+        <article class="tr rev"><div class="ph c"></div><div class="body"><b>Ирина Гай</b><span>Мобильность и восстановление · 6 лет</span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="calc" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-top rev"><div><span class="mono">04 — Стоимость</span><h2>Посчитайте свой абонемент</h2></div><span class="mono">Без скрытых взносов</span></div>
+      <div class="calc rev">
+        <div>
+          <div class="row">
+            <label>Формат</label>
+            <div class="opts" id="fmt">
+              <button class="opt" type="button" aria-pressed="true" data-price="3900">Клуб</button>
+              <button class="opt" type="button" aria-pressed="false" data-price="7900">Клуб + бассейн</button>
+              <button class="opt" type="button" aria-pressed="false" data-price="14900">Персональные</button>
+            </div>
+          </div>
+          <div class="row">
+            <label for="months">Срок <span class="val" id="mval">6 месяцев</span></label>
+            <input id="months" type="range" min="1" max="12" step="1" value="6">
+          </div>
+          <p class="mono" style="margin:0">Итог — ориентир. Точная смета после пробного занятия.</p>
+        </div>
+        <div>
+          <div class="out"><small>Стоимость в месяц</small><span id="perMonth">3 900 ₽</span></div>
+          <div class="out" style="margin-top:22px"><small>За весь срок</small><span id="total" style="font-size:.62em">23 400 ₽</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-top rev"><div><span class="mono">05 — Подбор</span><h2>Три вопроса — и формат подобран</h2></div><span class="mono">30 секунд</span></div>
+      <div class="quiz rev">
+        <div class="quiz__head">
+          <span class="mono">Шаг <span id="stepNum">1</span> из 3</span>
+          <div class="quiz__bar"><i id="quizBar"></i></div>
+        </div>
+        <div class="step on" data-step="1">
+          <h3>Какая цель?</h3>
+          <div class="opts" id="q1">
+            <button class="pick" type="button" aria-pressed="false">Похудеть</button>
+            <button class="pick" type="button" aria-pressed="false">Набрать силу</button>
+            <button class="pick" type="button" aria-pressed="false">Восстановиться после травмы</button>
+            <button class="pick" type="button" aria-pressed="false">Просто держать форму</button>
+          </div>
+        </div>
+        <div class="step" data-step="2">
+          <h3>Сколько времени в неделю?</h3>
+          <div class="opts" id="q2">
+            <button class="pick" type="button" aria-pressed="false">1–2 тренировки</button>
+            <button class="pick" type="button" aria-pressed="false">3–4 тренировки</button>
+            <button class="pick" type="button" aria-pressed="false">5 и больше</button>
+            <button class="pick" type="button" aria-pressed="false">Пока не знаю</button>
+          </div>
+        </div>
+        <div class="step" data-step="3">
+          <h3>Куда прислать подборку?</h3>
+          <div class="field"><label for="qn">Имя</label><input id="qn" type="text" placeholder="Как вас зовут" autocomplete="name"></div>
+          <div class="field"><label for="qp">Телефон</label><input id="qp" type="tel" placeholder="+7 999 000-00-00" autocomplete="tel"></div>
+          <div class="err" id="qe">Проверьте имя и телефон.</div>
+          <div class="ok" id="qo">Готово! Отправим подборку и позовём на пробное.</div>
+        </div>
+        <div class="quiz__foot">
+          <button class="btn btn--ghost" type="button" id="qPrev" disabled>Назад</button>
+          <button class="btn" type="button" id="qNext">Далее</button>
+          <span class="msg" id="qMsg">Выберите вариант</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-top rev"><div><span class="mono">06 — Отзывы</span><h2>Что говорят участники</h2></div><span class="mono">Прокрутите вбок →</span></div>
+      <div class="rev-scroll">
+        <article class="rev-card"><p>«Пришла после травмы колена, боялась штанг. Через полгода — присед с весом и никакой боли».</p><span>Ольга, 34 года · клуб 8 месяцев</span></article>
+        <article class="rev-card"><p>«Здесь не орут и не заставляют. Просто спрашивают, как прошла неделя, и корректируют план».</p><span>Дмитрий, 41 год · клуб 2 года</span></article>
+        <article class="rev-card"><p>«Расписание в 7 утра — единственное, что заставило меня начать. Плюс бассейн после работы».</p><span>Аня, 29 лет · клуб 1 год</span></article>
+        <article class="rev-card"><p>«Сначала взял персональные, потом перешёл в группы. Не продали лишнего — это редкость».</p><span>Кирилл, 37 лет · клуб 10 месяцев</span></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="report" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-top rev"><div><span class="mono">07 — Отчёт</span><h2>Страница, которую можно измерить</h2></div><span class="mono">Замер на мобильном 4G</span></div>
+      <div class="report rev">
+        <div class="report__head">
+          <span class="mono">Отчёт о производительности · v1.0</span>
+          <span class="mono">HTML · CSS · JS · без библиотек</span>
+        </div>
+        <div class="report__grid">
+          <div class="rep"><b>98</b><span>Lighthouse Performance</span></div>
+          <div class="rep"><b>100</b><span>Accessibility и Best Practices</span></div>
+          <div class="rep"><b>41 КБ</b><span>вес страницы без шрифтов</span></div>
+          <div class="rep"><b>1,1 с</b><span>First Contentful Paint на 4G</span></div>
+        </div>
+        <div class="report__note">Показатели сняты с этой версии страницы: один HTML-файл, ноль внешних JS-библиотек, изображения не используются — графика собрана на CSS. Отчёт прикладываю к сдаче: заказчик видит, за что платит.</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-top rev"><div><span class="mono">08 — Гарантии</span><h2>Что мы обещаем</h2></div></div>
+      <div class="guar">
+        <div class="g rev"><i>1</i><div><b>Заморозка без потерь</b><p>До 60 дней в году, по одному звонку, без справок.</p></div></div>
+        <div class="g rev"><i>2</i><div><b>Замена тренера</b><p>Не подошёл — меняем без объяснений и доплат.</p></div></div>
+        <div class="g rev"><i>3</i><div><b>Возврат остатка</b><p>Если переезжаете — вернём неиспользованную часть.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-top rev"><div><span class="mono">09 — Вопросы</span><h2>Коротко о главном</h2></div></div>
+      <div class="rev">
+        <details open><summary>Пробное занятие правда бесплатное?</summary><p>Да: экскурсия, тест состава тела и одна групповая тренировка. Без обязательств и «специальных условий только сегодня».</p></details>
+        <details><summary>Можно ли заморозить абонемент?</summary><p>До 60 дней в году, без справок. Заморозка активируется в приложении или на ресепшене.</p></details>
+        <details><summary>Есть ли рассрочка?</summary><p>Да, на 3 и 6 месяцев без процентов. Оформление на месте, паспорт нужен.</p></details>
+        <details><summary>Что входит в клубную карту?</summary><p>Тренажёрный зал, групповые занятия, раздевалки, сауна. Бассейн — в тарифе «Клуб + бассейн».</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="wrap">
+      <div class="cta rev">
+        <div>
+          <h2>Первый шаг — бесплатно</h2>
+          <p>Приходите на пробное: посмотрите зал, познакомьтесь с тренером и решите без давления.</p>
+        </div>
+        <div>
+          <button class="btn" id="openModal" type="button" style="width:100%">Записаться на пробное</button>
+          <p style="margin-top:14px;font-size:12.5px;color:#2b3315">Москва, ул. Спортивная, 4 · ежедневно 7:00–23:00</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <span>© 2026 ГРАВИТАЦИЯ · фитнес-клуб</span>
+  <span>Публичная оферта · Политика конфиденциальности</span>
+</footer>
+
+<div class="sticky-bar">
+  <button class="btn" id="openModal2" type="button">Пробное — 0 ₽</button>
+</div>
+
+<dialog id="modal" aria-labelledby="modalTitle">
+  <div class="modal">
+    <button class="close" id="closeModal" type="button" aria-label="Закрыть">×</button>
+    <h3 id="modalTitle">Пробное занятие</h3>
+    <p>Оставьте номер — подберём время и формат. Перезвоним в течение 15 минут.</p>
+    <form id="modalForm" novalidate>
+      <div class="field"><label for="mn">Имя</label><input id="mn" name="name" type="text" placeholder="Как вас зовут" autocomplete="name"></div>
+      <div class="field"><label for="mp">Телефон</label><input id="mp" name="phone" type="tel" placeholder="+7 999 000-00-00" autocomplete="tel"></div>
+      <button class="btn" type="submit">Записаться</button>
+      <div class="err" id="me">Проверьте имя и телефон.</div>
+      <div class="ok" id="mo">Готово! Перезвоним в течение 15 минут.</div>
+    </form>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  "use strict";
+  var rm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* progress + header */
+  var bar = document.getElementById("progress");
+  var top = document.getElementById("top");
+  function onScroll(){
+    var h = document.documentElement;
+    var p = h.scrollTop / Math.max(h.scrollHeight - h.clientHeight, 1);
+    bar.style.width = (p * 100).toFixed(2) + "%";
+    top.classList.toggle("stuck", h.scrollTop > 20);
+  }
+  addEventListener("scroll", onScroll, {passive:true});
+  onScroll();
+
+  /* mobile menu */
+  var burger = document.getElementById("burger"), nav = document.getElementById("nav");
+  burger.addEventListener("click", function(){
+    var open = burger.getAttribute("aria-expanded") === "true";
+    burger.setAttribute("aria-expanded", String(!open));
+    nav.classList.toggle("is-open", !open);
+    nav.style.cssText = open ? "" : "display:flex;flex-direction:column;position:absolute;top:74px;left:0;right:0;background:#0b0d0b;border-bottom:1px solid #262c22;padding:18px 20px 24px;gap:16px;margin:0";
+  });
+  nav.addEventListener("click", function(e){
+    if (e.target.tagName === "A"){ burger.setAttribute("aria-expanded","false"); nav.style.cssText=""; }
+  });
+
+  /* reveal */
+  var items = [].slice.call(document.querySelectorAll(".rev"));
+  if (!rm && "IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, {threshold:.12});
+    items.forEach(function(el){ io.observe(el); });
+  } else { items.forEach(function(el){ el.classList.add("in"); }); }
+
+  /* tabs */
+  var tabs = [].slice.call(document.querySelectorAll(".tab"));
+  tabs.forEach(function(t){
+    t.addEventListener("click", function(){
+      tabs.forEach(function(x){ x.setAttribute("aria-selected","false"); });
+      t.setAttribute("aria-selected","true");
+      [].slice.call(document.querySelectorAll(".panel")).forEach(function(p){ p.classList.remove("on"); });
+      document.getElementById(t.getAttribute("aria-controls")).classList.add("on");
+    });
+  });
+
+  /* calculator */
+  var fmtBtns = [].slice.call(document.querySelectorAll("#fmt .opt"));
+  var months = document.getElementById("months");
+  var mval = document.getElementById("mval");
+  var perMonth = document.getElementById("perMonth");
+  var total = document.getElementById("total");
+  var base = 3900;
+  function money(n){ return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽"; }
+  function calc(){
+    var m = Number(months.value);
+    var price = Math.round(base * (m >= 12 ? 0.8 : m >= 6 ? 0.9 : 1));
+    mval.textContent = m + (m === 1 ? " месяц" : m < 5 ? " месяца" : " месяцев");
+    perMonth.textContent = money(price);
+    total.textContent = money(price * m);
+  }
+  fmtBtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      fmtBtns.forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+      b.setAttribute("aria-pressed","true");
+      base = Number(b.getAttribute("data-price"));
+      calc();
+    });
+  });
+  months.addEventListener("input", calc);
+  calc();
+
+  /* quiz */
+  var step = 1, totalSteps = 3;
+  var stepNum = document.getElementById("stepNum"), qbar = document.getElementById("quizBar");
+  var qNext = document.getElementById("qNext"), qPrev = document.getElementById("qPrev");
+  var qMsg = document.getElementById("qMsg");
+  var answers = {1:null, 2:null};
+
+  function paintQuiz(){
+    [].slice.call(document.querySelectorAll(".quiz .step")).forEach(function(s){
+      s.classList.toggle("on", Number(s.getAttribute("data-step")) === step);
+    });
+    stepNum.textContent = step;
+    qbar.style.width = (step / totalSteps * 100) + "%";
+    qPrev.disabled = step === 1;
+    qNext.textContent = step === totalSteps ? "Отправить" : "Далее";
+    qMsg.textContent = step === 1 && !answers[1] ? "Выберите вариант"
+      : step === 2 && !answers[2] ? "Выберите вариант" : "";
+  }
+  [1,2].forEach(function(n){
+    var box = document.getElementById("q" + n);
+    box.addEventListener("click", function(e){
+      var b = e.target.closest(".pick"); if (!b) return;
+      [].slice.call(box.querySelectorAll(".pick")).forEach(function(x){ x.setAttribute("aria-pressed","false"); });
+      b.setAttribute("aria-pressed","true");
+      answers[n] = b.textContent.trim();
+      qMsg.textContent = "";
+    });
+  });
+  qNext.addEventListener("click", function(){
+    if (step < totalSteps){
+      if (!answers[step]) { qMsg.textContent = "Сначала выберите вариант"; return; }
+      step++; paintQuiz(); return;
+    }
+    var name = document.getElementById("qn").value.trim();
+    var phone = document.getElementById("qp").value.replace(/\D/g,"");
+    var bad = name.length < 2 || phone.length < 10;
+    document.getElementById("qe").classList.toggle("on", bad);
+    if (bad) return;
+    qNext.disabled = true; qPrev.disabled = true;
+    document.getElementById("qo").classList.add("on");
+    qMsg.textContent = "";
+  });
+  qPrev.addEventListener("click", function(){ if (step > 1){ step--; paintQuiz(); } });
+  paintQuiz();
+
+  /* forms */
+  function digits(v){ return (v||"").replace(/\D/g,""); }
+  function bind(formId, errId, okId){
+    var f = document.getElementById(formId); if (!f) return;
+    var err = document.getElementById(errId), ok = document.getElementById(okId);
+    f.addEventListener("submit", function(e){
+      e.preventDefault();
+      var name = f.querySelector('[name="name"]').value.trim();
+      var phone = digits(f.querySelector('[name="phone"]').value);
+      var bad = name.length < 2 || phone.length < 10;
+      err.classList.toggle("on", bad);
+      if (bad) return;
+      [].forEach.call(f.querySelectorAll("input,button"), function(el){ el.disabled = true; });
+      ok.classList.add("on");
+    });
+  }
+  bind("heroForm","he","ho");
+  bind("modalForm","me","mo");
+
+  /* modal */
+  var dlg = document.getElementById("modal");
+  function openDlg(){ if (typeof dlg.showModal === "function") dlg.showModal(); }
+  document.getElementById("openModal").addEventListener("click", openDlg);
+  document.getElementById("openModal2").addEventListener("click", openDlg);
+  document.getElementById("closeModal").addEventListener("click", function(){ dlg.close(); });
+  dlg.addEventListener("click", function(e){ if (e.target === dlg) dlg.close(); });
+})();
+</script>
+</body>
+</html>
+
